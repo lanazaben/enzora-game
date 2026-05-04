@@ -1,0 +1,494 @@
+
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  /* ===== THEME ===== */
+  :root {
+    --gradient-main: linear-gradient(135deg, #4facfe, #8e44ad);
+    --gradient-soft: linear-gradient(135deg, #eef4ff, #f5e9ff);
+
+    --color-primary: #6c5ce7;
+    --color-primary-dark: #4b3cc4;
+
+    --color-bg: #f7f9fc;
+    --color-card: #ffffff;
+
+    --color-text-primary: #1f2937;
+    --color-text-secondary: #6b7280;
+
+    --color-border: #e5e7eb;
+  }
+
+  body {
+    direction: rtl;
+    min-height: 100vh;
+
+    /* center EVERYTHING */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background: var(--gradient-soft);
+  }
+
+  #app {
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+    direction: rtl;
+
+    width: 100%;
+    max-width: 680px;
+
+    padding: 1.5rem;
+  }
+
+  .screen { display: none; }
+  .screen.active { display: block; }
+
+  /* ===== WELCOME ===== */
+  .welcome-header { text-align: center; padding: 2rem 0 1rem; }
+
+  .logo-badge {
+    display: inline-block;
+    background: white;
+    border-radius: 999px;
+    padding: 0.4rem 1.3rem;
+    font-size: 13px;
+    color: var(--color-primary);
+    margin-bottom: 1rem;
+    border: 1px solid var(--color-border);
+  }
+
+  .welcome-title {
+    font-size: 28px;
+    font-weight: 600;
+    background: var(--gradient-main);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 0.5rem;
+  }
+
+  .welcome-sub {
+    font-size: 15px;
+    color: var(--color-text-secondary);
+    line-height: 1.6;
+    margin-bottom: 2rem;
+  }
+
+  .name-section {
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
+    border-radius: 14px;
+    padding: 1.25rem;
+    margin-bottom: 1rem;
+  }
+
+  .name-label {
+    font-size: 13px;
+    color: var(--color-text-secondary);
+    margin-bottom: 8px;
+  }
+
+  .name-input {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid var(--color-border);
+    border-radius: 10px;
+    font-size: 15px;
+    background: #fafafa;
+  }
+
+  .name-input:focus {
+    outline: none;
+    border-color: var(--color-primary);
+  }
+
+  /* ===== PRIMARY BUTTON ===== */
+  .start-btn,
+  .play-again-btn {
+    width: 100%;
+    padding: 14px;
+    background: var(--gradient-main);
+    color: white;
+    border: none;
+    border-radius: 14px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.2s;
+  }
+
+  .start-btn:hover,
+  .play-again-btn:hover {
+    opacity: 0.9;
+  }
+
+  /* ===== PROGRESS ===== */
+  .progress-bar-wrap {
+    background: #eaeef5;
+    border-radius: 99px;
+    height: 6px;
+    margin-bottom: 1.5rem;
+    overflow: hidden;
+  }
+
+  .progress-bar-fill {
+    height: 100%;
+    background: var(--gradient-main);
+    border-radius: 99px;
+    transition: width 0.4s;
+  }
+
+  .q-counter {
+    font-size: 13px;
+    color: var(--color-text-secondary);
+    text-align: center;
+    margin-bottom: 0.5rem;
+  }
+
+  /* ===== CARD ===== */
+  .q-card {
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
+    border-radius: 16px;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .q-text {
+    font-size: 17px;
+    color: var(--color-text-primary);
+    line-height: 1.7;
+  }
+
+  /* ===== ANSWERS ===== */
+  .answer-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 1rem;
+  }
+
+  .ans-btn {
+    padding: 14px;
+    border: 1px solid var(--color-border);
+    border-radius: 14px;
+    background: white;
+    cursor: pointer;
+    transition: 0.2s;
+  }
+
+  .ans-btn:hover:not(:disabled) {
+    border-color: var(--color-primary);
+    background: #f4f2ff;
+  }
+
+  .ans-btn.correct {
+    background: #e8f0ff;
+    border-color: #4facfe;
+    color: #2c3e94;
+  }
+
+  .ans-btn.wrong {
+    background: #fde8ef;
+    border-color: #e05678;
+    color: #a82d4f;
+  }
+
+  /* ===== TIMER ===== */
+  .timer-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+
+  .timer-num {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--color-primary);
+  }
+
+  .timer-num.urgent {
+    color: #e05678;
+  }
+
+  /* ===== RESULTS ===== */
+  .result-score-big {
+    font-size: 56px;
+    font-weight: 700;
+    background: var(--gradient-main);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .enzora-promo {
+    background: var(--gradient-soft);
+    border-radius: 14px;
+    padding: 1rem;
+    margin-top: 1rem;
+    text-align: center;
+  }
+</style>
+
+<div id="app" dir="rtl">
+
+  <div id="welcome-screen" class="screen active">
+    <div class="welcome-header">
+      <div class="logo-badge">Enzora — Smart Wound Patch</div>
+      <h1 class="welcome-title">حقيقة أم خرافة؟</h1>
+      <p class="welcome-sub">اختبر معلوماتك عن مرض السكري والجروح — 15 سؤال، 15 ثانية لكل سؤال. هل تعرف الفرق بين الحقيقة والشائعة؟</p>
+    </div>
+    <div class="name-section">
+      <div class="name-label">أدخل اسمك للمنافسة على لوحة المتصدرين</div>
+      <input class="name-input" type="text" id="player-name" placeholder="اسمك هنا..." />
+    </div>
+    <button class="start-btn" onclick="startGame()">ابدأ التحدي</button>
+  </div>
+
+  <div id="quiz-screen" class="screen">
+    <div class="timer-row">
+      <span class="score-pill">النقاط: <span id="score-display">0</span></span>
+      <span class="timer-num" id="timer-display">15</span>
+    </div>
+    <div class="progress-bar-wrap"><div class="progress-bar-fill" id="progress-fill" style="width:0%"></div></div>
+    <div class="q-counter" id="q-counter">السؤال 1 من 15</div>
+    <div class="q-card">
+      <span class="q-tag" id="q-tag"></span>
+      <p class="q-text" id="q-text"></p>
+    </div>
+    <div class="answer-grid">
+      <button class="ans-btn" id="btn-true" onclick="answer(true)">حقيقة</button>
+      <button class="ans-btn" id="btn-false" onclick="answer(false)">خرافة</button>
+    </div>
+    <div id="feedback-area"></div>
+    <button class="next-btn" id="next-btn" style="display:none" onclick="nextQuestion()">السؤال التالي ←</button>
+  </div>
+
+  <div id="result-screen" class="screen">
+    <div class="result-header">
+      <div class="result-score-big" id="final-score"></div>
+      <div class="result-label">نقطة من أصل 15</div>
+      <div class="result-name" id="final-name"></div>
+    </div>
+    <div class="enzora-promo">
+      <div class="enzora-promo-title">تعرّف على Enzora</div>
+      <div class="enzora-promo-sub">ضمادة ذكية تكشف عدوى الجروح قبل تطور المضاعفات — خصوصاً لمرضى السكري</div>
+    </div>
+    <div class="leaderboard-title">لوحة المتصدرين</div>
+    <div id="leaderboard"></div>
+    <button class="play-again-btn" onclick="resetGame()">العب مجدداً</button>
+  </div>
+
+</div>
+
+<script>
+const questions = [
+  {
+    text: "مرضى السكري يفقدون الإحساس في أقدامهم بسبب تلف الأعصاب، مما يجعلهم لا يشعرون بالجروح.",
+    answer: true,
+    feedback: "صحيح تماماً. الاعتلال العصبي السكري يصيب ما يصل إلى 50% من مرضى السكري، وهو السبب الرئيسي وراء عدم اكتشاف الجروح في مراحلها المبكرة.",
+    enzoraLink: "هذا بالضبط ما تحله Enzora — التنبيه المبكر لوجود عدوى حتى حين لا يشعر المريض بأي ألم."
+  },
+  {
+    text: "الجروح عند مرضى السكري تلتئم بنفس سرعة الجروح لدى الشخص السليم.",
+    answer: false,
+    feedback: "خرافة. ارتفاع السكر في الدم يضعف وظيفة خلايا المناعة ويقلل تدفق الدم، مما يبطئ التئام الجروح بشكل ملحوظ.",
+    enzoraLink: "بما أن الالتئام أبطأ، فإن الكشف المبكر عن العدوى أصبح أكثر أهمية — وهنا يأتي دور Enzora."
+  },
+  {
+    text: "قد يؤدي جرح بسيط في قدم مريض السكري إلى بتر الساق إذا لم يُعالَج مبكراً.",
+    answer: true,
+    feedback: "حقيقة مؤلمة. يُجرى أكثر من مليون عملية بتر سنوياً في العالم بسبب مضاعفات القدم السكرية، ومعظمها كان يمكن الوقاية منه بالتدخل المبكر.",
+    enzoraLink: "المنتج الأساسي لـ Enzora هو منع هذا السيناريو بالضبط."
+  },
+  {
+    text: "الشخص يصاب بالسكري فقط إذا كان يأكل الكثير من السكر.",
+    answer: false,
+    feedback: "خرافة شائعة جداً. السكري النوع الأول مرض مناعي ذاتي لا علاقة له بالأكل، والنوع الثاني تتداخل فيه عوامل وراثية ونمط حياة وليس السكر وحده.",
+    enzoraLink: null
+  },
+  {
+    text: "العدوى في جرح مريض السكري قد تبدأ في الداخل قبل أن تظهر أي علامات خارجية مرئية.",
+    answer: true,
+    feedback: "صحيح. الالتهاب العميق يمكن أن يتطور داخل الأنسجة بينما يبدو الجرح من الخارج طبيعياً أو هادئاً.",
+    enzoraLink: "ضمادة Enzora تكشف هذه التغيرات الحيوية الداخلية من خلال مؤشر بصري — قبل أن تظهر الأعراض."
+  },
+  {
+    text: "إذا كان مريض السكري يتناول دواءه بانتظام، فلا داعي للقلق على الجروح.",
+    answer: false,
+    feedback: "خرافة. الدواء يساعد في ضبط مستوى السكر لكنه لا يُلغي مخاطر الجروح أو تلف الأعصاب، خاصة إذا كان المرض قديماً.",
+    enzoraLink: null
+  },
+  {
+    text: "يستطيع مريض السكري أن يتعايش مع جرح مزمن لأشهر دون أن يعلم بوجود عدوى.",
+    answer: true,
+    feedback: "حقيقة. الجروح المزمنة غير المؤلمة شائعة جداً بسبب فقدان الإحساس، ويأتي المريض للطبيب أحياناً بعد فوات الأوان.",
+    enzoraLink: "هذا السيناريو تحديداً هو سبب وجود Enzora."
+  },
+  {
+    text: "وضع الملح أو الشاي على الجرح طريقة فعّالة لقتل البكتيريا في الجروح المصابة بالسكري.",
+    answer: false,
+    feedback: "خرافة وخطيرة. هذه الطرق التقليدية قد تسبب تهيجاً وتضر بالأنسجة بدلاً من مساعدتها، ولا تحل محل العلاج الطبي.",
+    enzoraLink: null
+  },
+  {
+    text: "تغيير الضمادة يومياً كافٍ لضمان عدم تطور العدوى في جرح مريض السكري.",
+    answer: false,
+    feedback: "خرافة. تغيير الضمادة مهم لكنه لا يكفي وحده — العدوى قد تتطور بين جلسات التغيير دون أي مؤشر خارجي.",
+    enzoraLink: "ضمادة Enzora توفر مراقبة مستمرة 24 ساعة بدلاً من المتابعة اليومية المتقطعة."
+  },
+  {
+    text: "ارتفاع نسبة السكر في الدم يضعف الجهاز المناعي ويجعل الجسم أقل قدرة على محاربة البكتيريا.",
+    answer: true,
+    feedback: "حقيقة علمية ثابتة. الجلوكوز المرتفع يعيق وظيفة خلايا الدم البيضاء، وهو السبب الرئيسي وراء حساسية مرضى السكري للالتهابات.",
+    enzoraLink: null
+  },
+  {
+    text: "مرض السكري يصيب فقط كبار السن فوق الخمسين.",
+    answer: false,
+    feedback: "خرافة. السكري من النوع الأول يبدأ غالباً في الطفولة أو الشباب، والنوع الثاني أصبح يظهر بشكل متزايد في الفئات الشبابية.",
+    enzoraLink: null
+  },
+  {
+    text: "رائحة الجرح غير الطبيعية قد تكون علامة مبكرة على وجود عدوى بكتيرية.",
+    answer: true,
+    feedback: "صحيح. بعض البكتيريا تنتج مركبات كيميائية ذات رائحة مميزة، وهذا أحد المؤشرات التي تعتمد عليها تقنيات الاستشعار الذكي في تحديد العدوى.",
+    enzoraLink: "تعتمد Enzora على الاستشعار الكيميائي للتغيرات الحيوية في بيئة الجرح."
+  },
+  {
+    text: "مرضى السكري لا يحتاجون لفحص أقدامهم يومياً إذا لم يكونوا يشعرون بأي ألم.",
+    answer: false,
+    feedback: "خرافة وخطيرة. غياب الألم هو بالضبط السبب الذي يجعل الفحص اليومي ضرورياً — الجرح الغير مؤلم لا يعني الجرح الغير موجود.",
+    enzoraLink: null
+  },
+  {
+    text: "الفلسطينيون يعانون من نسب مرتفعة نسبياً من مرض السكري مقارنة بالمتوسط العالمي.",
+    answer: true,
+    feedback: "حقيقة. وفقاً لبيانات الصحة العامة، تتجاوز نسب السكري في فلسطين 13% — أعلى من المتوسط العالمي البالغ حوالي 10%.",
+    enzoraLink: "هذا ما يجعل منتج Enzora ذا أثر مباشر وملموس في السوق المحلي."
+  },
+  {
+    text: "ضمادة ذكية تستطيع الكشف عن وجود عدوى في الجرح قبل ظهور الأعراض الخارجية.",
+    answer: true,
+    feedback: "حقيقة — وهذا بالضبط ما يفعله منتجنا. الضمادة الذكية تستشعر التغيرات الكيميائية والحيوية داخل بيئة الجرح وتعطي مؤشراً بصرياً فورياً.",
+    enzoraLink: "مرحباً بك في بوث Enzora — اسألنا عن كيفية عمل المنتج وكيف يمكنه إنقاذ الأرواح."
+  }
+];
+
+let currentQ = 0;
+let score = 0;
+let playerName = '';
+let timerInterval = null;
+let timeLeft = 15;
+let answered = false;
+let leaderboard = [];
+
+function startGame() {
+  playerName = document.getElementById('player-name').value.trim() || 'مجهول';
+  currentQ = 0; score = 0; answered = false;
+  showScreen('quiz-screen');
+  renderQuestion();
+}
+
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+function renderQuestion() {
+  if (currentQ >= questions.length) { endGame(); return; }
+  answered = false;
+  const q = questions[currentQ];
+  document.getElementById('q-counter').textContent = 'السؤال ' + (currentQ + 1) + ' من ' + questions.length;
+  document.getElementById('progress-fill').style.width = ((currentQ / questions.length) * 100) + '%';
+  document.getElementById('q-text').textContent = q.text;
+  document.getElementById('q-tag').textContent = q.answer ? 'حقيقة أم خرافة؟' : 'حقيقة أم خرافة؟';
+  document.getElementById('q-tag').className = 'q-tag tag-fact';
+  document.getElementById('score-display').textContent = score;
+  document.getElementById('feedback-area').innerHTML = '';
+  document.getElementById('next-btn').style.display = 'none';
+  const btnTrue = document.getElementById('btn-true');
+  const btnFalse = document.getElementById('btn-false');
+  btnTrue.className = 'ans-btn'; btnTrue.disabled = false;
+  btnFalse.className = 'ans-btn'; btnFalse.disabled = false;
+  startTimer();
+}
+
+function startTimer() {
+  clearInterval(timerInterval);
+  timeLeft = 15;
+  updateTimerDisplay();
+  timerInterval = setInterval(() => {
+    timeLeft--;
+    updateTimerDisplay();
+    if (timeLeft <= 0) { clearInterval(timerInterval); if (!answered) { timeOut(); } }
+  }, 1000);
+}
+
+function updateTimerDisplay() {
+  const el = document.getElementById('timer-display');
+  el.textContent = timeLeft;
+  el.className = timeLeft <= 5 ? 'timer-num urgent' : 'timer-num';
+}
+
+function timeOut() {
+  answered = true;
+  const q = questions[currentQ];
+  document.getElementById('btn-true').disabled = true;
+  document.getElementById('btn-false').disabled = true;
+  document.getElementById('btn-' + (q.answer ? 'true' : 'false')).classList.add('correct');
+  showFeedback(false, q);
+}
+
+function answer(userAnswer) {
+  if (answered) return;
+  answered = true;
+  clearInterval(timerInterval);
+  const q = questions[currentQ];
+  const correct = userAnswer === q.answer;
+  if (correct) { score += timeLeft > 10 ? 3 : timeLeft > 5 ? 2 : 1; }
+  document.getElementById('btn-true').disabled = true;
+  document.getElementById('btn-false').disabled = true;
+  document.getElementById('btn-' + (userAnswer ? 'true' : 'false')).classList.add(correct ? 'correct' : 'wrong');
+  if (!correct) document.getElementById('btn-' + (q.answer ? 'true' : 'false')).classList.add('correct');
+  document.getElementById('score-display').textContent = score;
+  showFeedback(correct, q);
+}
+
+function showFeedback(correct, q) {
+  let html = '<div class="feedback-box ' + (correct ? 'feedback-correct' : 'feedback-wrong') + '">';
+  html += '<strong>' + (correct ? 'إجابة صحيحة!' : 'إجابة خاطئة') + '</strong><br>' + q.feedback;
+  html += '</div>';
+  if (q.enzoraLink) {
+    html += '<div class="enzora-note"><span class="enzora-icon">Enzora</span> — ' + q.enzoraLink + '</div>';
+  }
+  document.getElementById('feedback-area').innerHTML = html;
+  document.getElementById('next-btn').style.display = 'block';
+}
+
+function nextQuestion() {
+  currentQ++;
+  renderQuestion();
+}
+
+function endGame() {
+  leaderboard.push({ name: playerName, score: score });
+  leaderboard.sort((a, b) => b.score - a.score);
+  document.getElementById('final-score').textContent = score;
+  document.getElementById('final-name').textContent = playerName;
+  const lb = document.getElementById('leaderboard');
+  lb.innerHTML = leaderboard.slice(0, 10).map((entry, i) => {
+    const isCurrent = entry.name === playerName && entry.score === score;
+    const medal = i === 0 ? '1' : i === 1 ? '2' : i === 2 ? '3' : (i + 1) + '';
+    return '<div class="lb-row">' +
+      '<span class="lb-rank ' + (i === 0 ? 'gold' : '') + '">' + medal + '</span>' +
+      '<span class="lb-name ' + (isCurrent ? 'current' : '') + '">' + entry.name + (isCurrent ? ' ←أنت' : '') + '</span>' +
+      '<span class="lb-score">' + entry.score + '</span></div>';
+  }).join('');
+  showScreen('result-screen');
+}
+
+function resetGame() {
+  document.getElementById('player-name').value = '';
+  showScreen('welcome-screen');
+}
+</script>
